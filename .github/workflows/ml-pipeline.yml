@@ -57,3 +57,16 @@ jobs:
       run: |
         docker tag housing-model ${{ secrets.DOCKER_USERNAME }}/housing-model:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/housing-model:latest
+
+    - name: Show Results in GitHub Summary
+      run: |
+        echo "## Lab 8 Result - Version 1 (2022BCD0057)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        python <<EOF >> summary.txt
+import json
+data = json.load(open("metrics.json"))
+print(f"Dataset Size: {data['dataset_size']}")
+print(f"RMSE: {data['RMSE']}")
+print(f"R2: {data['R2']}")
+EOF
+        cat summary.txt >> $GITHUB_STEP_SUMMARY
