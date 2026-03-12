@@ -46,7 +46,7 @@ jobs:
 
     - name: Show Results in GitHub Summary
       run: |
-        echo "## Lab 8 Result - Version 1 (2022BCD0057)" >> $GITHUB_STEP_SUMMARY
+        echo "## Lab 8 Result - Version 2 (2022BCD0057)" >> $GITHUB_STEP_SUMMARY
         python -c "import json; d=json.load(open('metrics.json')); print(f'Dataset Size: {d[\"dataset_size\"]}\nRMSE: {d[\"RMSE\"]}\nR2: {d[\"R2\"]}')" >> $GITHUB_STEP_SUMMARY
 
     - name: Build Docker image
