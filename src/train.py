@@ -7,14 +7,14 @@ from sklearn.metrics import mean_squared_error, r2_score
 # Load dataset
 df = pd.read_csv("data/housing.csv")
 
-# Drop rows with missing values
-df = df.dropna()
+# Fill missing values instead of dropping rows
+df = df.fillna(df.median(numeric_only=True))
 
 # Features and target
 X = df.drop("median_house_value", axis=1)
 y = df["median_house_value"]
 
-# Convert ocean_proximity to numbers
+# Convert categorical column to numeric
 X = pd.get_dummies(X)
 
 # Train test split
