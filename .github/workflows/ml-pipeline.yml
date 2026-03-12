@@ -14,7 +14,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Python
+    - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.12'
@@ -44,6 +44,11 @@ jobs:
         name: metrics
         path: metrics.json
 
+    - name: Show Results in GitHub Summary
+      run: |
+        echo "## Lab 8 Result - Version 1 (2022BCD0057)" >> $GITHUB_STEP_SUMMARY
+        python -c "import json; d=json.load(open('metrics.json')); print(f'Dataset Size: {d[\"dataset_size\"]}\nRMSE: {d[\"RMSE\"]}\nR2: {d[\"R2\"]}')" >> $GITHUB_STEP_SUMMARY
+
     - name: Build Docker image
       run: docker build -t housing-model .
 
@@ -57,16 +62,3 @@ jobs:
       run: |
         docker tag housing-model ${{ secrets.DOCKER_USERNAME }}/housing-model:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/housing-model:latest
-
-    - name: Show Results in GitHub Summary
-      run: |
-        echo "## Lab 8 Result - Version 1 (2022BCD0057)" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        python <<EOF >> summary.txt
-import json
-data = json.load(open("metrics.json"))
-print(f"Dataset Size: {data['dataset_size']}")
-print(f"RMSE: {data['RMSE']}")
-print(f"R2: {data['R2']}")
-EOF
-        cat summary.txt >> $GITHUB_STEP_SUMMARY
