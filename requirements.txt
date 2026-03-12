@@ -1,7 +1,4 @@
 pandas
 scikit-learn
-fastapi
-uvicorn
-dvc
-dvc-s3
+dvc[s3]
 boto3
